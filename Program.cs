@@ -1,4 +1,10 @@
+﻿using API_BurguerSL.Controllers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using API_BurguerSL.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<API_BurguerSLContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("API_BurguerSLContext") ?? throw new InvalidOperationException("Connection string 'API_BurguerSLContext' not found.")));
 
 // Add services to the container.
 
@@ -21,5 +27,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapBurgerEndpoints();
+
 
 app.Run();
